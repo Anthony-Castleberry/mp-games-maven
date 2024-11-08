@@ -22,11 +22,13 @@ public class GameUI {
      * and handles the main game loop.
      */
     public void startGame() {
-        System.out.println("Welcome to GAMEE!");
-        System.out.println("Select difficulty: 1 (3x3), 2 (4x4), or 3 (5x5)");
+        System.out.println("Welcome to Flip Tile!");
+        System.out.println("Select difficulty: 1 (4x4), 2 (3x3), or 3 (5x5)");
         
         int difficulty = scanner.nextInt();
-        int size = (difficulty == 1) ? 3 : (difficulty == 2) ? 4 : 5;
+        int size = (difficulty == 1) ? 4 : (difficulty == 2) ? 3 : 5;
+
+        String exitText = "";
 
         game = new GameLogic(size);
 
@@ -34,6 +36,16 @@ public class GameUI {
 
         while (!game.isGameComplete()) {
             game.displayBoard();
+            System.out.print("type \"QUIT\" to quit or enter anything to continue: ");
+            String text = scanner.next();
+
+            // if the person quit the game
+            if (text.equals("QUIT")) {
+                System.out.println("Hope you try again :) ");
+                exitText = "QUIT";
+                break;
+            }
+
             System.out.print("Enter row: ");
             int row = scanner.nextInt();
             System.out.print("Enter col: ");
@@ -45,9 +57,12 @@ public class GameUI {
             }
         }
 
+        // if the game is solved
+        if (exitText.equals("")) {
         System.out.println("Congratulations! You've completed the game.");
         System.out.println("Moves taken: " + game.getMoveCount());
         System.out.println("Time taken: " + game.getElapsedTimeInSeconds() + " seconds.");
+        }
     }
     
     /**
